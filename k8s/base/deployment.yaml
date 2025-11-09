@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: devops-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: devops-web
+  template:
+    metadata:
+      labels:
+        app: devops-web
+    spec:
+      containers:
+        - name: web
+          image: plavez/devops-pipeline:latest   # Jenkins будет подменять тег на $BUILD_NUMBER
+          ports:
+            - containerPort: 80
