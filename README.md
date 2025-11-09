@@ -59,10 +59,10 @@ Kubernetes (k3s cluster)
 Jenkins клонирует проект из GitHub:
 ```groovy
 checkout scm
-...
+```
 
 
-2️⃣ Build Docker image
+### 2️⃣ **Build Docker image**
 
 ```
    FROM nginx:alpine
@@ -73,14 +73,14 @@ checkout scm
 docker build -t plavez/devops-pipeline:latest .
 docker tag plavez/devops-pipeline:latest plavez/devops-pipeline:${BUILD_NUMBER}
 ```
-### 3️⃣ Push to DockerHub
+### 3️⃣ **Push to DockerHub**
    Jenkins authenticates and pushes the image:
 
 ```
 docker push plavez/devops-pipeline:latest
 docker push plavez/devops-pipeline:${BUILD_NUMBER}
 ```
-### 4️⃣ Deploy to dev
+### 4️⃣ **Deploy to dev**
    Automatic deployment to Kubernetes:
    ```
    kubectl apply -f k8s/dev/ns.yaml
@@ -89,7 +89,7 @@ kubectl -n dev apply -f k8s/base/service.yaml
 kubectl -n dev set image deployment/devops-web web=plavez/devops-pipeline:${BUILD_NUMBER}
 kubectl -n dev rollout status deployment/devops-web
 ```
-### 5️⃣ Deploy to prod
+### 5️⃣ **Deploy to prod**
    Manual confirmation:
 ```
 input message: 'Deploy to PRODUCTION?'
@@ -103,7 +103,7 @@ kubectl -n prod apply -f k8s/base/service.yaml
 kubectl -n prod set image deployment/devops-web web=plavez/devops-pipeline:${BUILD_NUMBER}
 kubectl -n prod rollout status deployment/devops-web
 ```
-## 🧾 Jenkins Stage View (example)
+## 🧾 **Jenkins Stage View (example)**
 Stage	Duration	Result
 Declarative: Checkout SCM	1s	✅
 Checkout	1s	✅
@@ -159,7 +159,7 @@ Conclusion
 
 This project demonstrates the implementation of a complete CI/CD pipeline using modern DevOps tools:
 
-## ✅ Key achievements:
+## ✅ **Key achievements:**
 
 Automated pipeline from GitHub → Jenkins → DockerHub → Kubernetes
 
