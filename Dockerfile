@@ -1,2 +1,2 @@
-FROM alpine:3.18
-CMD ["echo", "Hello from Jenkins CI/CD"]
+FROM nginx:alpine
+COPY index.html /usr/share/nginx/html/index.html
