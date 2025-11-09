@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = "vladgolic/devops-pipeline"   // укажи свой репозиторий DockerHub
+        DOCKER_IMAGE = "plavez/devops-pipeline"   // укажи свой репозиторий DockerHub
         DOCKER_CREDS = "58682082-4fbd-4e02-a3ab-4a11c0c78ac0"  // ID твоих DockerHub credentials
     }
 
