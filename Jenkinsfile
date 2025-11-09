@@ -3,15 +3,9 @@ pipeline {
 
     environment {
         DOCKER_IMAGE = "plavez/devops-pipeline"
-        DOCKER_CREDS = "58682082-4fbd-4e02-a3ab-4a11c0c78ac0"   // твой ID для DockerHub
+        DOCKER_CREDS = "58682082-4fbd-4e02-a3ab-4a11c0c78ac0"   // ID DockerHub credentials
         KUBECONFIG_CRED = "kubeconfig-main"                     // kubeconfig credential
     }
-
-    // environment {
-    //     DOCKER_IMAGE = "plavez/devops-pipeline"   // укажи свой репозиторий DockerHub
-    //     DOCKER_CREDS = "58682082-4fbd-4e02-a3ab-4a11c0c78ac0"  // ID твоих DockerHub credentials
-    // }
-
 
     stages {
 
@@ -49,10 +43,9 @@ pipeline {
                 withCredentials([file(credentialsId: env.KUBECONFIG_CRED, variable: 'KCFG')]) {
                     sh '''
                       export KUBECONFIG="$KCFG"
-                      kubectl apply -f k8s/dev/ns.yaml
+                      kubectl apply -f k8s/base/dev/ns.yaml
                       kubectl -n dev apply -f k8s/base/deployment.yaml
                       kubectl -n dev apply -f k8s/base/service.yaml
-                      # подменим тег на текущий билд
                       kubectl -n dev set image deployment/devops-web web=${DOCKER_IMAGE}:${BUILD_NUMBER}
                       kubectl -n dev rollout status deployment/devops-web
                     '''
@@ -67,7 +60,7 @@ pipeline {
                 withCredentials([file(credentialsId: env.KUBECONFIG_CRED, variable: 'KCFG')]) {
                     sh '''
                       export KUBECONFIG="$KCFG"
-                      kubectl apply -f k8s/prod/ns.yaml
+                      kubectl apply -f k8s/base/prod/ns.yaml
                       kubectl -n prod apply -f k8s/base/deployment.yaml
                       kubectl -n prod apply -f k8s/base/service.yaml
                       kubectl -n prod set image deployment/devops-web web=${DOCKER_IMAGE}:${BUILD_NUMBER}
